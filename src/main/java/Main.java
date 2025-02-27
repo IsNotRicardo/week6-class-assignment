@@ -32,16 +32,17 @@ public class Main {
 
                     double duration;
                     while (true) {
-                        System.out.print("Enter the duration of the practice session (in hours): ");
+                        System.out.print("\nEnter the duration of the practice session (in hours): ");
                         try {
                             duration = Double.parseDouble(scanner.nextLine());
+                            aikido.addTrainingSession(date, duration);
                             break;
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid duration. Please try again.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
                         }
                     }
-
-                    aikido.addTrainingSession(date, duration);
                     break;
                 case 2:
                     System.out.println("\nTotal practice time: " + aikido.getTotalTrainingTime() + " hours");

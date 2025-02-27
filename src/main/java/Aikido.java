@@ -13,6 +13,12 @@ public class Aikido {
     private final List<TrainingSession> trainingSessions = new ArrayList<>();
 
     public void addTrainingSession(String date, double duration) {
+        if (duration <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than 0");
+        }
+        if (!date.matches("\\d{2}-\\d{2}-\\d{4}")) {
+            throw new IllegalArgumentException("Invalid date format. Please use dd-mm-yyyy");
+        }
         trainingSessions.add(new TrainingSession(LocalDate.parse(date, dateFormatter), duration));
     }
 
