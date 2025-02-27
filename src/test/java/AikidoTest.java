@@ -30,7 +30,7 @@ public class AikidoTest {
     @Test
     void testCheckGraduationEligibility() {
         aikido.addTrainingSession("01-03-2025", 2.5);
-        aikido.addTrainingSession("02-03-2024", 4.0);
+        aikido.addTrainingSession("02-03-2025", 4.0);
         aikido.addTrainingSession("20-01-2025", 2.0);
         assertFalse(aikido.checkGraduationEligibility());
         aikido.addTrainingSession("01-02-2026", 1.5);
