@@ -1,13 +1,17 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Aikido {
     private static final int MINIMUM_TRAINING_DAYS = 180;
     private static final int MINIMUM_TRAINING_SESSIONS = 100;
+
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final List<TrainingSession> trainingSessions = new ArrayList<>();
 
     public void addTrainingSession(String date, double duration) {
-        trainingSessions.add(new TrainingSession(date, duration));
+        trainingSessions.add(new TrainingSession(LocalDate.parse(date, dateFormatter), duration));
     }
 
     public double getTotalTrainingTime() {
@@ -18,14 +22,15 @@ public class Aikido {
         return getDaysBetweenDates() >= MINIMUM_TRAINING_DAYS || trainingSessions.size() >= MINIMUM_TRAINING_SESSIONS;
     }
 
+    // TODO: Optimise the calculation of days between dates
     private double getDaysBetweenDates() {
-        String smallestDate = trainingSessions.getFirst().getDate();
-        String largestDate = trainingSessions.getFirst().getDate();
+        LocalDate smallestDate = trainingSessions.getFirst().getDate();
+        LocalDate largestDate = trainingSessions.getFirst().getDate();
 
         for (TrainingSession trainingSession : trainingSessions) {
-            String[] dateSplit = trainingSession.getDate().split("-");
-            String[] smallestTempSplit = smallestDate.split("-");
-            String[] largestTempSplit = largestDate.split("-");
+            String[] dateSplit = trainingSession.getDate().format(dateFormatter).split("-");
+            String[] smallestTempSplit = smallestDate.format(dateFormatter).split("-");
+            String[] largestTempSplit = largestDate.format(dateFormatter).split("-");
 
             if (dateSplit[2].compareTo(smallestTempSplit[2]) < 0) {
                 smallestDate = trainingSession.getDate();
@@ -46,8 +51,8 @@ public class Aikido {
             }
         }
 
-        String[] smallestDateSplit = smallestDate.split("-");
-        String[] largestDateSplit = largestDate.split("-");
+        String[] smallestDateSplit = smallestDate.format(dateFormatter).split("-");
+        String[] largestDateSplit = largestDate.format(dateFormatter).split("-");
 
         return (Integer.parseInt(largestDateSplit[2]) - Integer.parseInt(smallestDateSplit[2])) * 365 +
                 (Integer.parseInt(largestDateSplit[1]) - Integer.parseInt(smallestDateSplit[1])) * 30 +
